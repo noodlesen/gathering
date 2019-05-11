@@ -1,0 +1,6 @@
+res/
+igs_selected/
+import/
+db.sqlite3
+gathering/settings.py
+feed.html
