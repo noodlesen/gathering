@@ -12,7 +12,8 @@ def get_tags(keys):
     for k in keys:
         ktags = [(t.name, t.rating,) for t in k.tag_set.all()]
         tags.extend(ktags)
-    #print (tags)
+
+    tags = list(set(tags))
 
     smp = sorted(sample(tags, TAG_LIMIT), key=itemgetter(1), reverse=True)
 
