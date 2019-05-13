@@ -54,8 +54,11 @@ class Command(BaseCommand):
             keys = []
             keys.extend(common_keys)
             keys.extend(guess_keys)
-            tags_blocks = get_tags(keys)
+            tags_blocks = get_tags(keys, blocks=1)
+
             tags_text = "<br/><br/>".join(tags_blocks)
+            #print (tags_text)
+            #input()
             p = Post(footage=ftg, tags=tags_text, text="by @"+ftg.author.nickname)
             p.approved = True
             p.save()
@@ -67,13 +70,13 @@ class Command(BaseCommand):
             print('file is open')
             posts = Post.objects.all()
             f.write('<html><head></head><body>')
-            for i, p in enumerate(posts):
+            for i, p in enumerate([p for p in posts if p.footage.shortcode not in deployed_footage_scs]):
                 print('making post', i)
                 f.write('<div>')
                 f.write('<h3>%d.</h3><img src="%s" width=300><p>%s</p><p>%s</p><p><i>%s</i></p>' % (p.id, p.footage.path, p.text, p.tags,  p.footage.text))
                 f.write('</div>')
                 status = subprocess.call('cp %s %s' % (p.footage.path, RES_FOLDER+'/'+str(p.id)+'.jpg'), shell=True)
-                texts[str(p.id)]= "\n\n".join([p.text, p.tags, p.footage.text])
+                texts[str(p.id)]= "\n\n".join([p.footage.text, '***********',p.text+'\n.\n.\n.\n.\n.\n'+p.tags])
             f.write('</body></html>')
 
         for k,v in texts.items():

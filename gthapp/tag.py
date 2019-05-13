@@ -3,10 +3,11 @@ from operator import itemgetter
 from gthapp.models import Tag, Key
 
 
-def get_tags(keys):
+def get_tags(keys, **kwargs):
 
-    TAG_LIMIT = 90
+    blocks_num = kwargs.get('blocks', 3)
     BLOCK_LIMIT = 30
+    tag_limit = blocks_num*BLOCK_LIMIT
 
     tags = []
     for k in keys:
@@ -15,11 +16,12 @@ def get_tags(keys):
 
     tags = list(set(tags))
 
-    smp = sorted(sample(tags, TAG_LIMIT), key=itemgetter(1), reverse=True)
+    smp = sorted(sample(tags, tag_limit), key=itemgetter(1), reverse=True)
 
     blocks = []
     i = 0
-    while i < 90:
+
+    while i < tag_limit:
         blocks.append(smp[i:i+BLOCK_LIMIT])
         i += BLOCK_LIMIT
 

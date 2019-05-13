@@ -15,7 +15,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     local_count = models.IntegerField(default=None, null=True)
     global_count = models.IntegerField(default=None, null=True)
     original = models.BooleanField(default=True)
