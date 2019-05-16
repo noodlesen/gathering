@@ -57,18 +57,6 @@ class Post(models.Model):
     footage = models.ForeignKey(Footage, on_delete=models.SET_NULL, null=True)
 
 
-##****
-
-class Project(models.Model):
-    name = models.CharField(max_length=255)
-    keys = models.ManyToManyField(blank=True)
-    tags = models.ManyToManyField(blank=True)
-    footages = models.ManyToManyField(blank=True)
-    posts = models.ManyToManyField(blank=True)
-
-
-
-
 
 
 

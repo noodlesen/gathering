@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from os import listdir
 from os.path import isfile, join, isdir, exists
 import json
-from gthapp.models import Author, Footage, Tag
+from gthapp.models import Author, Footage, Tag, Project
 
 
 class Command(BaseCommand):
@@ -12,13 +12,12 @@ class Command(BaseCommand):
         Author.objects.all().delete()
         Footage.objects.all().delete()
 
-        mypath = 'igs_selected'
+        mypath = 'scrap'
         dirs = [f for f in listdir(mypath) if isdir(join(mypath, f))]
         for d in dirs:
             print('\n\nDIRECTORY:', d)
-            dl = listdir(join(mypath, d))
 
-            with open(join(mypath,d,d+'.json'), 'r') as j:
+            with open(join(mypath, d, d+'.json'), 'r') as j:
 
                 try:
                     a = Author.objects.get(nickname=d)
@@ -53,4 +52,3 @@ class Command(BaseCommand):
                             ftg.save()
                     else:
                         print('MISSING!')
-
