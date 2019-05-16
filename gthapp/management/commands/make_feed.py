@@ -51,12 +51,15 @@ class Command(BaseCommand):
             print(i)
             ftg = Footage.objects.get(shortcode=sc)
             guess_keys = guess_keys_by_tags(ftg.tags.split(' '))
+            author_keys = list(ftg.author.key.all())
             keys = []
             keys.extend(common_keys)
             keys.extend(guess_keys)
-            tags_blocks = get_tags(keys, blocks=1)
+            keys.extend(author_keys)
+            keys = list(set(keys))
+            tags_blocks = get_tags(keys, blocks=2)
 
-            tags_text = "<br/><br/>".join(tags_blocks)
+            tags_text = "<br/><br/>".join([tb['text']+'<br/><br/>>>>%d %d %d' % (tb['data']['avg'],tb['data']['max'],tb['data']['min'])  for tb in tags_blocks])
             #print (tags_text)
             #input()
             p = Post(footage=ftg, tags=tags_text, text="by @"+ftg.author.nickname)

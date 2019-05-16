@@ -42,7 +42,7 @@ class Footage(models.Model):
         return self.path
 
     url = models.CharField(max_length=255)
-    path = models.CharField(max_length=255)
+    path = models.CharField(max_length=255, null=True)
     text = models.TextField(default=None, null=True)
     tags = models.TextField(default=None, null=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
@@ -55,6 +55,16 @@ class Post(models.Model):
     approved = models.BooleanField(default=False)
     deployed = models.BooleanField(default=False)
     footage = models.ForeignKey(Footage, on_delete=models.SET_NULL, null=True)
+
+
+##****
+
+class Project(models.Model):
+    name = models.CharField(max_length=255)
+    keys = models.ManyToManyField(blank=True)
+    tags = models.ManyToManyField(blank=True)
+    footages = models.ManyToManyField(blank=True)
+    posts = models.ManyToManyField(blank=True)
 
 
 

@@ -27,7 +27,18 @@ def get_tags(keys, **kwargs):
 
     res = []
     for b in blocks:
-        res.append(' '.join(['#'+t[0] for t in b]))
+        ratings = [t[1] for t in b]
+        rmax = max(ratings)
+        rmin = min(ratings)
+        ravg = int(sum(ratings)/len(ratings))
+        res.append({
+            "text": ' '.join(['#'+t[0] for t in b]),
+            "data": {
+                "max": rmax,
+                "min": rmin,
+                "avg": ravg
+            }
+        })
 
     return res
 
